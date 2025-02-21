@@ -1,34 +1,35 @@
-import { CiCircleInfo } from 'react-icons/ci';
-import toast from 'react-hot-toast';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
+import { IoSearchSharp } from 'react-icons/io5';
 
-export default function SearchBar({ onSubmit }) {
+import toast from 'react-hot-toast';
+import css from './SearchBar.module.css';
+
+export default function SearchBar({ onSubmit, value, onChange }) {
   const handleSubmit = e => {
     e.preventDefault();
 
-    const form = e.currentTarget;
-    const inputVal = form.elements.query.value.trim();
-
-    if (inputVal === '') {
-      toast('Please enter your request', {
-        duration: 3000,
-        icon: <CiCircleInfo size={24} color="black" />,
-      });
-      return;
-    }
-    onSubmit(inputVal);
-    form.reset();
+    value === ''
+      ? toast('Please enter your request', {
+          duration: 3000,
+          icon: <AiOutlineInfoCircle size={24} />,
+        })
+      : onSubmit();
   };
   return (
-    <header>
-      <form onSubmit={handleSubmit}>
+    <header className={css.header}>
+      <form className={css.searchForm} onSubmit={handleSubmit}>
         <input
+          className={css.inputField}
           type="text"
           autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
+          placeholder="Search.."
           name="query"
+          value={value}
+          onChange={onChange}
         />
-        <button type="submit">Search</button>
+        <button className={css.searchBtn} type="submit">
+          <IoSearchSharp size={24} />
+        </button>
       </form>
     </header>
   );

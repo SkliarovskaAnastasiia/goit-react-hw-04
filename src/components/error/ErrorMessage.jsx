@@ -3,6 +3,6 @@ import { useEffect } from 'react';
 
 export default function ErrorMessage() {
   useEffect(() => {
-    toast.error('Something went wrong, try again');
+    toast.error('Something went wrong, try again', { duration: 3000 });
   }, []);
 }
