@@ -8,6 +8,7 @@ import ImageGallery from './components/imageGallery/ImageGallery';
 import ErrorMessage from './components/error/ErrorMessage';
 import Loader from './components/loader/Loader';
 import LoadMoreBtn from './components/loadMoreBtn/LoadMoreBtn';
+import ImageModal from './components/imageModal/ImageModal';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -16,6 +17,8 @@ function App() {
   const [loader, setLoader] = useState(false);
   const [loadMoreBtn, setLoadMoreBtn] = useState(false);
   const [page, setPage] = useState(1);
+  const [imageModal, setImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   const fetchImages = async () => {
     try {
@@ -81,6 +84,15 @@ function App() {
     }
   };
 
+  const onOpenModal = image => {
+    setImageModal(true);
+    setSelectedImage(image);
+  };
+  const onCloseModal = () => {
+    setImageModal(false);
+    setSelectedImage('');
+  };
+
   return (
     <>
       <SearchBar
@@ -89,11 +101,20 @@ function App() {
         onChange={handleInputChange}
       />
       {error && <ErrorMessage />}
-      {images.length > 0 && <ImageGallery items={images} />}
+      {images.length > 0 && (
+        <ImageGallery items={images} onModal={onOpenModal} />
+      )}
       {loadMoreBtn && images.length > 0 && (
         <LoadMoreBtn onClick={loadMoreImages} />
       )}
       {loader && <Loader />}
+      {imageModal && (
+        <ImageModal
+          isOpen={imageModal}
+          onClose={onCloseModal}
+          image={selectedImage}
+        />
+      )}
       <Toaster />
     </>
   );

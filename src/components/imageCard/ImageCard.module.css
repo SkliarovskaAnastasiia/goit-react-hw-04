@@ -2,4 +2,5 @@
   height: 250px;
   border-radius: 4px;
   object-fit: cover;
+  cursor: pointer;
 }
