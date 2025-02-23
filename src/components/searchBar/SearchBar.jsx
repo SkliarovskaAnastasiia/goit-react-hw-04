@@ -4,7 +4,7 @@ import { IoSearchSharp } from 'react-icons/io5';
 import toast from 'react-hot-toast';
 import css from './SearchBar.module.css';
 
-export default function SearchBar({ onSubmit, value, onChange }) {
+export default function SearchBar({ onSubmit, value, onChange, ref }) {
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -14,6 +14,7 @@ export default function SearchBar({ onSubmit, value, onChange }) {
           icon: <AiOutlineInfoCircle size={24} />,
         })
       : onSubmit();
+    ref.current.blur();
   };
   return (
     <header className={css.header}>
@@ -26,6 +27,7 @@ export default function SearchBar({ onSubmit, value, onChange }) {
           name="query"
           value={value}
           onChange={onChange}
+          ref={ref}
         />
         <button className={css.searchBtn} type="submit">
           <IoSearchSharp size={24} />

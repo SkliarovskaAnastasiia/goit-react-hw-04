@@ -10,4 +10,9 @@
 .galerryItem {
   height: 250px;
   flex-basis: calc((100% - 20px) / 3);
+  overflow: hidden;
+}
+
+.galerryItem:hover img {
+  scale: 1.1;
 }

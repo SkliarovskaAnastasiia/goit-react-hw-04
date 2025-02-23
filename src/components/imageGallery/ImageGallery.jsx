@@ -1,9 +1,9 @@
 import ImageCard from '../imageCard/ImageCard';
 import css from './ImageGallery.module.css';
 
-export default function ImageGallery({ items, onModal }) {
+export default function ImageGallery({ items, onModal, ref }) {
   return (
-    <ul className={css.galleryList}>
+    <ul className={css.galleryList} ref={ref}>
       {items.map(item => (
         <li
           className={css.galerryItem}

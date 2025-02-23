@@ -1,5 +1,5 @@
 import { AiOutlineInfoCircle } from 'react-icons/ai';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { getImagesByQuery } from './unsplash-api';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -19,6 +19,8 @@ function App() {
   const [page, setPage] = useState(1);
   const [imageModal, setImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+  const galleryRef = useRef();
+  const inputRef = useRef();
 
   const fetchImages = async () => {
     try {
@@ -71,6 +73,12 @@ function App() {
       const { results, total_pages } = await getImagesByQuery(query, nextPage);
       setImages(prevImages => [...prevImages, ...results]);
 
+      setTimeout(() => {
+        const { height } =
+          galleryRef.current.children[0].getBoundingClientRect();
+        window.scrollBy({ top: height * 2.1, behavior: 'smooth' });
+      }, 100);
+
       total_pages === nextPage
         ? toast('End of collection', {
             duration: 3000,
@@ -99,22 +107,27 @@ function App() {
         onSubmit={fetchImages}
         value={query}
         onChange={handleInputChange}
+        ref={inputRef}
       />
+
       {error && <ErrorMessage />}
+
       {images.length > 0 && (
-        <ImageGallery items={images} onModal={onOpenModal} />
+        <ImageGallery items={images} onModal={onOpenModal} ref={galleryRef} />
       )}
+
       {loadMoreBtn && images.length > 0 && (
         <LoadMoreBtn onClick={loadMoreImages} />
       )}
+
       {loader && <Loader />}
-      {imageModal && (
-        <ImageModal
-          isOpen={imageModal}
-          onClose={onCloseModal}
-          image={selectedImage}
-        />
-      )}
+
+      <ImageModal
+        isOpen={imageModal}
+        onClose={onCloseModal}
+        image={selectedImage}
+      />
+
       <Toaster />
     </>
   );

@@ -15,3 +15,8 @@ export const getImagesByQuery = async (query, page) => {
   });
   return responce.data;
 };
+
+export const getDownloadLink = async link => {
+  const responce = await axios.get(link, { params: { client_id: ACCESS_KEY } });
+  return responce.data.url;
+};
